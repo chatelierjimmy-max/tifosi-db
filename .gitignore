@@ -1,0 +1,6 @@
+*.log
+.DS_Store
+data/
+docs/
+sql/
+*.pdf
