@@ -1,3 +1,136 @@
+# Projet Base de Données — Tifosi DB
+
+## Description du projet
+
+Ce projet consiste à concevoir et implémenter une base de données relationnelle pour la gestion d’un restaurant italien **Tifosi**.
+
+La base permet de gérer :
+
+* les clients
+* les menus
+* les focaccias
+* les ingrédients
+* les boissons
+* les achats effectués par les clients
+
+Le projet a été réalisé avec **MySQL** et **MySQL Workbench**.
+
+---
+
+## Structure du projet
+
+```
+tifosi-db/
+│
+├── schema/
+│   └── 01_schema.sql      → Création des tables et contraintes
+│
+├── seed/
+│   └── 02_seed.sql        → Insertion des données initiales
+│
+├── tests/
+│   └── 03_tests.sql       → Requêtes SQL de validation
+│
+├── README.md
+└── .gitignore
+```
+
+---
+
+## Modèle de données
+
+La base repose sur plusieurs entités principales :
+
+* **client**
+* **menu**
+* **focaccia**
+* **ingredient**
+* **boisson**
+* **marque**
+
+Tables d’association :
+
+* **comprend** → relation focaccia / ingrédient
+* **contient** → relation menu / boisson
+* **achete** → achats réalisés par les clients
+
+Les clés étrangères assurent l’intégrité référentielle.
+
+---
+
+## Installation
+
+### 1️ Créer la base de données
+
+```sql
+CREATE DATABASE tifosi;
+USE tifosi;
+```
+
+---
+
+### 2️ Exécuter le schéma
+
+Importer :
+
+```
+01_schema.sql
+```
+
+---
+
+### 3️ Insérer les données
+
+Importer :
+
+```
+02_seed.sql
+```
+
+---
+
+### 4️ Lancer les tests
+
+Exécuter :
+
+```
+03_tests.sql
+```
+
+---
+
+## Requêtes indispensables (Tests)
+
+Le fichier `03_tests.sql` contient notamment :
+
+* Liste des achats clients
+* Menus et boissons associées
+* Composition des focaccias
+* Vérification des doublons
+* Contrôle d’intégrité des relations
+
+---
+
+## Technologies utilisées
+
+* MySQL 8+
+* MySQL Workbench
+* Git / GitHub
+
+---
+
+## Auteur
+
+Projet réalisé par : **[chatelier]**
+Formation : Base de Données
+Année : 2026
+
+---
+
+## Licence
+
+Projet pédagogique réalisé dans le cadre d’un apprentissage SQL.
+
 # Tifosi — Base de données MySQL
 
 Ce dépôt contient les livrables demandés dans le brief **« Concevoir une base de données avec MySQL »** (BDD `tifosi`, schéma + données de test + requêtes de vérification). fileciteturn0file0
