@@ -50,91 +50,125 @@ ORDER BY a.date_achat;
 USE tifosi;
 
 -- ==========================================================
--- CHECK 1) Boissons sans marque (FK boisson -> marque)
--- Attendu : 0 ligne
+-- CHECK 1) Liste des noms des focaccias (ordre alphabétique)
+-- Attendu : toutes les focaccias, triées A -> Z
+-- Obtenu : (à remplir)
+-- Écart : (à remplir)
 -- ==========================================================
-SELECT b.*
+SELECT f.nom
+FROM focaccia f
+ORDER BY f.nom ASC;
+
+-- ==========================================================
+-- CHECK 2) Nombre total d'ingrédients
+-- Attendu : 1 ligne, 1 nombre
+-- Obtenu : (à remplir)
+-- Écart : (à remplir)
+-- ==========================================================
+SELECT COUNT(*) AS nb_ingredients
+FROM ingredient;
+
+-- ==========================================================
+-- CHECK 3) Prix moyen des focaccias
+-- Attendu : 1 ligne, 1 nombre (moyenne)
+-- Obtenu : (à remplir)
+-- Écart : (à remplir)
+-- ==========================================================
+SELECT AVG(f.prix) AS prix_moyen_focaccias
+FROM focaccia f;
+
+-- ==========================================================
+-- CHECK 4) Liste des boissons avec leur marque, triée par nom de boisson
+-- Attendu : boissons + marque associée, triées par boisson
+-- Obtenu : (à remplir)
+-- Écart : (à remplir)
+-- ==========================================================
+SELECT b.nom AS boisson, m.nom AS marque
 FROM boisson b
-LEFT JOIN marque m ON m.id_marque = b.id_marque
-WHERE m.id_marque IS NULL;
+JOIN marque m ON m.id_marque = b.id_marque
+ORDER BY b.nom ASC;
 
 -- ==========================================================
--- CHECK 2) Menus sans focaccia (FK menu -> focaccia)
--- Attendu : 0 ligne
+-- CHECK 5) Liste des ingrédients pour la focaccia "Raclaccia"
+-- Attendu : ingrédients de Raclaccia (plusieurs lignes)
+-- Obtenu : (à remplir)
+-- Écart : (à remplir)
 -- ==========================================================
-SELECT me.*
-FROM menu me
-LEFT JOIN focaccia f ON f.id_focaccia = me.id_focaccia
-WHERE f.id_focaccia IS NULL;
+SELECT i.nom AS ingredient
+FROM focaccia f
+JOIN comprend c ON c.id_focaccia = f.id_focaccia
+JOIN ingredient i ON i.id_ingredient = c.id_ingredient
+WHERE f.nom = 'Raclaccia'
+ORDER BY i.nom;
 
 -- ==========================================================
--- CHECK 3) contient : id_menu inexistant
--- Attendu : 0 ligne
+-- CHECK 6) Nom + nombre d'ingrédients pour chaque focaccia
+-- Attendu : 1 ligne par focaccia
+-- Obtenu : (à remplir)
+-- Écart : (à remplir)
 -- ==========================================================
-SELECT co.*
-FROM contient co
-LEFT JOIN menu me ON me.id_menu = co.id_menu
-WHERE me.id_menu IS NULL;
+SELECT f.nom, COUNT(c.id_ingredient) AS nb_ingredients
+FROM focaccia f
+LEFT JOIN comprend c ON c.id_focaccia = f.id_focaccia
+GROUP BY f.id_focaccia, f.nom
+ORDER BY f.nom;
 
 -- ==========================================================
--- CHECK 4) contient : id_boisson inexistant
--- Attendu : 0 ligne
+-- CHECK 7) focaccia ayant le plus d'ingrédients
+-- Attendu : 1 ou plusieurs lignes si égalité
 -- ==========================================================
-SELECT co.*
-FROM contient co
-LEFT JOIN boisson b ON b.id_boisson = co.id_boisson
-WHERE b.id_boisson IS NULL;
+SELECT f.nom, COUNT(c.id_ingredient) AS nb_ingredients
+FROM focaccia f
+JOIN comprend c 
+    ON c.id_focaccia = f.id_focaccia
+GROUP BY f.id_focaccia, f.nom
+HAVING COUNT(c.id_ingredient) = (
+    SELECT MAX(nb)
+    FROM (
+        SELECT COUNT(*) AS nb
+        FROM comprend
+        GROUP BY id_focaccia
+    ) AS sous_req
+);
 
 -- ==========================================================
--- CHECK 5) comprend : id_focaccia inexistant
--- Attendu : 0 ligne
+-- CHECK 8) Liste des focaccias qui contiennent de l'ail
+-- Attendu : focaccias où ingredient.nom = 'Ail' (ou 'ail')
+-- Obtenu : (à remplir)
+-- Écart : (à remplir)
 -- ==========================================================
-SELECT c.*
-FROM comprend c
-LEFT JOIN focaccia f ON f.id_focaccia = c.id_focaccia
-WHERE f.id_focaccia IS NULL;
+SELECT DISTINCT f.nom
+FROM focaccia f
+JOIN comprend c ON c.id_focaccia = f.id_focaccia
+JOIN ingredient i ON i.id_ingredient = c.id_ingredient
+WHERE LOWER(i.nom) = 'ail'
+ORDER BY f.nom;
 
 -- ==========================================================
--- CHECK 6) comprend : id_ingredient inexistant
--- Attendu : 0 ligne
+-- CHECK 9) Liste des ingrédients inutilisés (jamais dans comprend)
+-- Attendu : ingrédients sans aucune association
+-- Obtenu : (à remplir)
+-- Écart : (à remplir)
 -- ==========================================================
-SELECT c.*
-FROM comprend c
-LEFT JOIN ingredient i ON i.id_ingredient = c.id_ingredient
-WHERE i.id_ingredient IS NULL;
+SELECT i.nom
+FROM ingredient i
+LEFT JOIN comprend c ON c.id_ingredient = i.id_ingredient
+WHERE c.id_ingredient IS NULL
+ORDER BY i.nom;
 
 -- ==========================================================
--- CHECK 7) achete : client inexistant
--- Attendu : 0 ligne
+-- CHECK 10) Liste des focaccias qui n'ont pas de champignons
+-- Attendu : focaccias dont aucun ingrédient = 'Champignon(s)'
+-- Obtenu : (à remplir)
+-- Écart : (à remplir)
 -- ==========================================================
-SELECT a.*
-FROM achete a
-LEFT JOIN client c ON c.id_client = a.id_client
-WHERE c.id_client IS NULL;
-
--- ==========================================================
--- CHECK 8) achete : menu inexistant
--- Attendu : 0 ligne
--- ==========================================================
-SELECT a.*
-FROM achete a
-LEFT JOIN menu m ON m.id_menu = a.id_menu
-WHERE m.id_menu IS NULL;
-
--- ==========================================================
--- CHECK 9) Doublons dans contient (PK composite devrait empêcher)
--- Attendu : 0 ligne
--- ==========================================================
-SELECT id_menu, id_boisson, COUNT(*) AS nb
-FROM contient
-GROUP BY id_menu, id_boisson
-HAVING COUNT(*) > 1;
-
--- ==========================================================
--- CHECK 10) Doublons dans comprend (PK composite devrait empêcher)
--- Attendu : 0 ligne
--- ==========================================================
-SELECT id_focaccia, id_ingredient, COUNT(*) AS nb
-FROM comprend
-GROUP BY id_focaccia, id_ingredient
-HAVING COUNT(*) > 1;
+SELECT f.nom
+FROM focaccia f
+WHERE NOT EXISTS (
+  SELECT 1
+  FROM comprend c
+  JOIN ingredient i ON i.id_ingredient = c.id_ingredient
+  WHERE c.id_focaccia = f.id_focaccia
+    AND LOWER(i.nom) IN ('champignon', 'champignons')
+)
+ORDER BY f.nom;
