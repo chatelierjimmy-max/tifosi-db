@@ -1,3 +1,6 @@
+-- Vérification fonctionnelle de la base
+-- 10 requêtes de validation
+
 USE tifosi;
 
 -- ===============================

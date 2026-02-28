@@ -1,3 +1,9 @@
+-- Projet BDD Tifosi
+-- Script de création
+-- Auteur : chatelier
+
+DROP DATABASE IF EXISTS tifosi;
+CREATE DATABASE tifosi;
 USE tifosi;
 
 CREATE TABLE IF NOT EXISTS ingredient (
