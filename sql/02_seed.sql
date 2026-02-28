@@ -1,4 +1,7 @@
--- Script de peuplement
+-- Projet : Tifosi
+-- Auteur : Chatelier
+-- Date : 2026
+-- Script des données
 -- Import des données CSV
 
 USE tifosi;

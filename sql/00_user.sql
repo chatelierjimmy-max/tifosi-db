@@ -1,3 +1,7 @@
+-- Projet : Tifosi
+-- Auteur : Chatelier
+-- Date : 2026
+
 -- =====================================
 -- Création utilisateur tifosi
 -- =====================================

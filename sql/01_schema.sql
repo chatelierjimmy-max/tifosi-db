@@ -1,6 +1,7 @@
 -- Projet BDD Tifosi
 -- Script de création
 -- Auteur : chatelier
+-- Date : 2026
 
 DROP DATABASE IF EXISTS tifosi;
 CREATE DATABASE tifosi;

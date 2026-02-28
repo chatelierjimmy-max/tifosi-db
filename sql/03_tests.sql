@@ -1,3 +1,6 @@
+-- Projet : Tifosi
+-- Auteur : Chatelier
+-- Date : 2026
 -- Vérification fonctionnelle de la base
 -- 10 requêtes de validation
 
