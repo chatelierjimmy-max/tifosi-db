@@ -6,22 +6,34 @@ Ce projet consiste à concevoir et implémenter une base de données relationnel
 
 La base permet de gérer :
 
-* les clients
-* les menus
-* les focaccias
-* les ingrédients
-* les boissons
-* les achats effectués par les clients
+- les clients
+- les menus
+- les focaccias
+- les ingrédients
+- les boissons
+- les achats effectués par les clients
 
 Le projet a été réalisé avec **MySQL** et **MySQL Workbench**.
 
 ---
+
+## Ordre d'exécution des scripts SQL
+
+Pour recréer entièrement la base de données **tifosi**, exécuter les scripts dans l'ordre suivant :
+
+1. `00_user.sql` → Création de l'utilisateur et attribution des droits
+2. `01_schema.sql` → Création de la base et des tables
+3. `02_seed.sql` → Insertion des données
+4. `03_tests.sql` → Vérification et requêtes de test
 
 ## Structure du projet
 
 ```
 tifosi-db/
 │
+├── user/
+    └── 00_user.sql      → Partie connexion utilisateurs
+
 ├── schema/
 │   └── 01_schema.sql      → Création des tables et contraintes
 │
@@ -41,18 +53,18 @@ tifosi-db/
 
 La base repose sur plusieurs entités principales :
 
-* **client**
-* **menu**
-* **focaccia**
-* **ingredient**
-* **boisson**
-* **marque**
+- **client**
+- **menu**
+- **focaccia**
+- **ingredient**
+- **boisson**
+- **marque**
 
 Tables d’association :
 
-* **comprend** → relation focaccia / ingrédient
-* **contient** → relation menu / boisson
-* **achete** → achats réalisés par les clients
+- **comprend** → relation focaccia / ingrédient
+- **contient** → relation menu / boisson
+- **achete** → achats réalisés par les clients
 
 Les clés étrangères assurent l’intégrité référentielle.
 
@@ -103,19 +115,19 @@ Exécuter :
 
 Le fichier `03_tests.sql` contient notamment :
 
-* Liste des achats clients
-* Menus et boissons associées
-* Composition des focaccias
-* Vérification des doublons
-* Contrôle d’intégrité des relations
+- Liste des achats clients
+- Menus et boissons associées
+- Composition des focaccias
+- Vérification des doublons
+- Contrôle d’intégrité des relations
 
 ---
 
 ## Technologies utilisées
 
-* MySQL 8+
-* MySQL Workbench
-* Git / GitHub
+- MySQL 8+
+- MySQL Workbench
+- Git / GitHub
 
 ---
 
@@ -168,6 +180,7 @@ mysql -u tifosi -p tifosi
 ## Notes de modélisation
 
 Le schéma suit le MCD du brief :
+
 - `focaccia` ↔ `ingredient` via `comprend(quantite_g)`
 - `boisson` → `marque`
 - `menu` (constitué d'1 focaccia) ↔ `boisson` via `contient`
