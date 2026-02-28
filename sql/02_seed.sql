@@ -4,7 +4,7 @@
 USE tifosi;
 SET FOREIGN_KEY_CHECKS = 0;
 SET FOREIGN_KEY_CHECKS = 1;
-USE tclientifosi;
+USE tifosi;
 
 -- Nettoyage (optionnel si tu recommences)
 SET FOREIGN_KEY_CHECKS = 0;
@@ -63,9 +63,9 @@ INSERT INTO contient (id_menu, id_boisson) VALUES
 (2, 3);
 
 -- CLIENT
-INSERT INTO client (id_client, nom, email, code_postal) VALUES
-(1, 'Alice Martin', 'alice@example.com', 75001),
-(2, 'Karim Diallo', 'karim@example.com', 69002);
+INSERT INTO client (id_client, prenom, nom, email, code_postal) VALUES
+(1, 'Alice',  'Martin', 'alice@example.com', 75001),
+(2, 'Karim', 'Diallo', 'karim@example.com', 69002);
 
 -- ACHETE (client ↔ menu + date)
 INSERT INTO achete (id_client, id_menu, date_achat) VALUES
